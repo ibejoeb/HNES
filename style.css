@@ -869,6 +869,12 @@ body#login-body {
   max-width: 800px;
 }
 
+.hnes-comment blockquote {
+  margin: 0;
+  border-left: 4px solid #ccc;
+  padding-left: 1em;
+}
+
 .hnes-comment.level-odd,
 #hnes-comments.nolevels .hnes-comment {
   background-color: #FFFFFD;

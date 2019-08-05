@@ -307,10 +307,36 @@ class HNComments {
       `
     this.commentTemplate = injector.firstElementChild;
     this.storyId = storyId;
+    this.reQuote = /^>\s*/;
   }
 
   getNodeMap() {
     return this.nodeMap;
+  }
+
+  removeTextQuote(el) {
+    let n = el.firstChild, die = false;
+    while (n && !die) {
+      if (n.nodeType == Node.TEXT_NODE) {
+        n.textContent = n.textContent.replace(this.reQuote, '');
+        die = true;
+      }
+      else {
+        die = this.removeTextQuote(n);
+      }
+      n = n.nextSibling;
+    }
+    return die;
+  }
+
+  makeQuote(el) {
+    if (!el) return;
+
+    this.removeTextQuote(el);
+
+    const bq = document.createElement('blockquote');
+    bq.appendChild(el);
+    return bq;
   }
 
   extractCommentParts(commentEl) {
@@ -323,16 +349,27 @@ class HNComments {
     const p = document.createElement('p');
 
     let n = container.firstChild;
-    while (n && !(n.nodeName == 'P' || n.nodeName == 'SPAN' || n.nodeName == 'DIV')) {
+    while (n && n.nodeName != 'P' && n.nodeName != 'SPAN' && n.nodeName != 'DIV') {
       p.appendChild(n.cloneNode(true));
       n = n.nextSibling;
     }
-    parts.push(p);
+    if (this.reQuote.test(p.textContent)) {
+      parts.push(this.makeQuote(p));
+    } else {
+      parts.push(p);
+    }
 
     while (n && n.nodeName != 'DIV') {
-      parts.push(n.cloneNode(true));
+      let n_ = n.cloneNode(true);
+      if (this.reQuote.test(n_.textContent)) {
+        parts.push(this.makeQuote(n_));
+      } else {
+        parts.push(n_);
+      }
       n = n.nextSibling;
     }
+
+    console.log('parts:', parts);
     return parts;
   }
 
@@ -505,11 +542,11 @@ class HNComments {
 
     // hide upvotes or downvotes if there's no url in original (i.e. not logged in or not enough karma to downvote)
     if (!c.upVoteUrl) { upvoterEl.classList.add('voted') }
-    if (!c.downVoteUrl) { 
+    if (!c.downVoteUrl) {
       downvoterEl.classList.add('voted')
       upvoterEl.classList.add('nodownvote')
     }
-  
+
     if (c.isUpVoted || c.isDownVoted) {
       upvoterEl.classList.add('voted')
       downvoterEl.classList.add('voted')
@@ -533,7 +570,7 @@ class HNComments {
     if (c.isDead) {
       authorEl.classList.add('dead');
     }
-    
+
     if (c.score) {
       commentEl.querySelector('.score').textContent = c.score + " by";
       commentEl.querySelector('.score').classList.add('visible');
@@ -592,7 +629,7 @@ class HNComments {
       httpRequest.open('GET', unvote_link, true);
       httpRequest.send();
     }, true);
-    
+
     this.renderComments(kids, commentEl.querySelector('.replies'))
     into.appendChild(clone);
   }
