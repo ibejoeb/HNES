@@ -767,10 +767,6 @@ body#login-body {
   color: rgb(102, 102, 102);
 }
 
-#hnes-comments .parent {
-  display: none;
-}
-
 #hnes-comments .replies {
   margin: 8px 0 0 30px;
 }
@@ -916,7 +912,12 @@ body#login-body {
 
 .hnes-comment footer {
   font-size: smaller;
+}
+
+#hnes-comments .hnes-comment footer a {
+  color: rgb(102, 102, 102);
   text-decoration: underline;
+  margin-right: .25em;
 }
 
 .hnes-comment .edit {

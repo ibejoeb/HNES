@@ -294,10 +294,10 @@ class HNComments {
                   <div class="text">
                   </div>
                   <footer>
+                      <a class="parent">parent</a>
                       <a class="reply">reply</a>
                       <a class="edit">edit</a>
                       <!--<a class="permalink">permalink</a>-->
-                      <a class="parent">parent</a>
                   </footer>
               </section>
               <section class="replies"></div>
@@ -484,7 +484,7 @@ class HNComments {
     if (c.isCollapsed) commentEl.classList.add('collapsed');
 
     if (c.level == 1) {
-      parentEl.parentNode.removeChild(parentEl);
+      parentEl.style.display = 'none';
     }
     else {
       if (c.parentLinkUrl) {
