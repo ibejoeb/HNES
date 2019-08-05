@@ -270,7 +270,6 @@ class HNComments {
       <template id="hnes-comment-tmpl">
           <div id="" class="hnes-comment" data-hnes-level="">
               <header>
-                  <!--<span class="voter"><a href="#" class="upvote"></a><a href="#" class="downvote"></a></span>-->
                   <span class="voteblock">
                     <a href="#" class="upvoter votearrow upvote" title="Upvote"></a>
                     <a href="#" class="downvoter votearrow rotate180 downvote" title="Downvote"></a>
@@ -287,7 +286,6 @@ class HNComments {
                       <input type="text" class="hnes-tagEdit" placeholder="">
                     </span>
                   </span>
-                  <!--<span class="age"></span>-->
                   <a class="age permalink"></a>
                   <span class="reply-count"></span>
                   <span class="on-story nostory">on <a href=""></a></span>
@@ -296,9 +294,11 @@ class HNComments {
                   <div class="text">
                   </div>
                   <footer>
-                      <a class="reply">reply</a>
-                      <!--<a class="permalink">permalink</a>-->
                       <a class="parent">parent</a>
+                      <a class="reply">reply</a>
+                      <a class="edit">edit</a>
+                      <a class="delete">delete</a>
+                      <!--<a class="permalink">permalink</a>-->
                   </footer>
               </section>
               <section class="replies"></div>
@@ -435,7 +435,11 @@ class HNComments {
         commentColor = commentSpanEl ? commentSpanEl.classList[0] : 'c00',
         isDead = t.querySelector('span.comhead').textContent.includes(' [dead] '),
         scoreEl = t.querySelector('span.score'),
-        score = scoreEl ? scoreEl.textContent : '';
+        score = scoreEl ? scoreEl.textContent : '',
+        editEl = t.querySelector('span.comhead a:nth-child(6)'),
+        editUrl = editEl && editEl.href,
+        deleteEl = t.querySelector('span.comhead a:nth-child(7)'),
+        deleteUrl = deleteEl && deleteEl.href;
 
       nodeList[nodeIndex++] = {
         id,
@@ -463,6 +467,8 @@ class HNComments {
         commentColor,
         isDead,
         score,
+        editUrl,
+        deleteUrl,
       }
     };
     return nodeList;
@@ -519,7 +525,7 @@ class HNComments {
     if (c.isCollapsed) commentEl.classList.add('collapsed');
 
     if (c.level == 1) {
-      parentEl.parentNode.removeChild(parentEl);
+      parentEl.style.display = 'none';
     }
     else {
       if (c.parentLinkUrl) {
@@ -574,6 +580,18 @@ class HNComments {
     if (c.score) {
       commentEl.querySelector('.score').textContent = c.score + " by";
       commentEl.querySelector('.score').classList.add('visible');
+    }
+
+    if (c.editUrl) {
+      const editEl = commentEl.querySelector('.edit');
+      editEl.href = c.editUrl;
+      editEl.classList.add('visible');
+    }
+
+    if (c.deleteUrl) {
+      const deleteEl = commentEl.querySelector('.delete');
+      deleteEl.href = c.deleteUrl;
+      deleteEl.classList.add('visible');
     }
 
     for (let parts = c.textParts, textContainer = commentEl.querySelector('.text'), i = 0; i < parts.length; i++) {
