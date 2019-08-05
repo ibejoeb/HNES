@@ -297,6 +297,7 @@ class HNComments {
                       <a class="parent">parent</a>
                       <a class="reply">reply</a>
                       <a class="edit">edit</a>
+                      <a class="delete">delete</a>
                       <!--<a class="permalink">permalink</a>-->
                   </footer>
               </section>
@@ -399,7 +400,9 @@ class HNComments {
         scoreEl = t.querySelector('span.score'),
         score = scoreEl ? scoreEl.textContent : '',
         editEl = t.querySelector('span.comhead a:nth-child(6)'),
-        editUrl = editEl && editEl.href;
+        editUrl = editEl && editEl.href,
+        deleteEl = t.querySelector('span.comhead a:nth-child(7)'),
+        deleteUrl = deleteEl && deleteEl.href;
 
       nodeList[nodeIndex++] = {
         id,
@@ -428,6 +431,7 @@ class HNComments {
         isDead,
         score,
         editUrl,
+        deleteUrl,
       }
     };
     return nodeList;
@@ -545,6 +549,12 @@ class HNComments {
       const editEl = commentEl.querySelector('.edit');
       editEl.href = c.editUrl;
       editEl.classList.add('visible');
+    }
+
+    if (c.deleteUrl) {
+      const deleteEl = commentEl.querySelector('.delete');
+      deleteEl.href = c.deleteUrl;
+      deleteEl.classList.add('visible');
     }
 
     for (let parts = c.textParts, textContainer = commentEl.querySelector('.text'), i = 0; i < parts.length; i++) {

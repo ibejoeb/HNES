@@ -920,11 +920,11 @@ body#login-body {
   margin-right: .25em;
 }
 
-.hnes-comment .edit {
+.hnes-comment .edit, .hnes-comment .delete {
   display: none;
 }
 
-.hnes-comment .edit.visible {
+.hnes-comment .edit.visible, .hnes-comment .delete.visible {
   display: inline;
 }
 
