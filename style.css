@@ -919,6 +919,14 @@ body#login-body {
   text-decoration: underline;
 }
 
+.hnes-comment .edit {
+  display: none;
+}
+
+.hnes-comment .edit.visible {
+  display: inline;
+}
+
 /* removes some extraneous spacing between comments as mentioned in issue #140 */
 .comtr td {
   padding: 0px;
