@@ -270,7 +270,6 @@ class HNComments {
       <template id="hnes-comment-tmpl">
           <div id="" class="hnes-comment" data-hnes-level="">
               <header>
-                  <!--<span class="voter"><a href="#" class="upvote"></a><a href="#" class="downvote"></a></span>-->
                   <span class="voteblock">
                     <a href="#" class="upvoter votearrow upvote" title="Upvote"></a>
                     <a href="#" class="downvoter votearrow rotate180 downvote" title="Downvote"></a>
@@ -287,7 +286,6 @@ class HNComments {
                       <input type="text" class="hnes-tagEdit" placeholder="">
                     </span>
                   </span>
-                  <!--<span class="age"></span>-->
                   <a class="age permalink"></a>
                   <span class="reply-count"></span>
                   <span class="on-story nostory">on <a href=""></a></span>
@@ -505,11 +503,11 @@ class HNComments {
 
     // hide upvotes or downvotes if there's no url in original (i.e. not logged in or not enough karma to downvote)
     if (!c.upVoteUrl) { upvoterEl.classList.add('voted') }
-    if (!c.downVoteUrl) { 
+    if (!c.downVoteUrl) {
       downvoterEl.classList.add('voted')
       upvoterEl.classList.add('nodownvote')
     }
-  
+
     if (c.isUpVoted || c.isDownVoted) {
       upvoterEl.classList.add('voted')
       downvoterEl.classList.add('voted')
@@ -592,7 +590,7 @@ class HNComments {
       httpRequest.open('GET', unvote_link, true);
       httpRequest.send();
     }, true);
-    
+
     this.renderComments(kids, commentEl.querySelector('.replies'))
     into.appendChild(clone);
   }
