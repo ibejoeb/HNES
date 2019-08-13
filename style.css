@@ -866,9 +866,10 @@ body#login-body {
 }
 
 .hnes-comment blockquote {
+  color: #666;
   margin: 0;
   border-left: 4px solid #ccc;
-  padding-left: 1em;
+  padding-left: .5em;
 }
 
 .hnes-comment.level-odd,
